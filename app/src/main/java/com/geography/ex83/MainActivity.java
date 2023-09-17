@@ -10,6 +10,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+/**
+ * @author Yanir Aton
+ * @version 1.0
+ * @since 2023-9-15
+ * this is MainActivity class
+ * this app is a geography app that allows user to select a continent and then a country
+ * it will show the capital, population, language, and anthem of the selected country
+ */
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,AdapterView.OnItemClickListener {
 
     Spinner cntinentsSpinner;
@@ -28,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         continents = createEarth();
 
+
+        //  connect the views to the xml file
         cntinentsSpinner = (Spinner) findViewById(R.id.cntinentsSpinner);
         countryList = (ListView) findViewById(R.id.countryList);
         capitalText = (TextView) findViewById(R.id.capitalText);
@@ -36,10 +46,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         anthemText = (TextView) findViewById(R.id.anthemText);
 
 
+        // create the spinner
         cntinentsSpinner.setOnItemSelectedListener(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,continentsName);
         cntinentsSpinner.setAdapter(adapter);
 
+        // create the listview
         countryList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         countryList.setOnItemClickListener(this);
 
@@ -50,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    /**
+     * this method is used to create the continent array that includes all the data about the countries
+     * @return the continent array
+     */
     public continent[] createEarth() {
         continent[] continents = new continent[7];
         continents[0] = new continent("South America");
@@ -223,6 +239,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+    /**
+     * this method is activated when the user selects a continent from the spinner and will change the listview to the countries of the selected continent
+     * @param parent The AdapterView where the selection happened
+     * @param view The view within the AdapterView that was clicked
+     * @param position The position of the view in the adapter
+     * @param id The row id of the item that is selected
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         ArrayAdapter<String> adp = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,continents[position].getCountriesString());
@@ -235,6 +258,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    /**
+     * this method is activated when the user clicks on a country from the listview and it will update the dada on the country
+     * @param parent The AdapterView where the click happened.
+     * @param view The view within the AdapterView that was clicked (this
+     *            will be a view provided by the adapter)
+     * @param position The position of the view in the adapter.
+     * @param id The row id of the item that was clicked.
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         capitalText.setText("Capital = " + continents[currentContinent].getCountries()[position].getCapital());
